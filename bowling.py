@@ -31,17 +31,15 @@ def score(game):
 
 def CalculateScore(game, i, last, result):
     if game[i] == Score.spare:
-        result += 10 - last
+        result += Score.maxScore - last
     else:
         result += get_value(game[i])
     return result
 
 
 def CalculateScoreIfLastWasTotalled(game, i, result):
-    if game[i] == Score.spare:
-        result += get_value(game[i + 1])
-    elif game[i].upper() == Score.strike:
-        result += get_value(game[i + 1])
+    result += get_value(game[i + 1])
+    if game[i].upper() == Score.strike:
         if game[i + 2] == Score.spare:
             result += Score.maxScore - get_value(game[i + 1])
         else:
@@ -52,9 +50,7 @@ def CalculateScoreIfLastWasTotalled(game, i, result):
 def get_value(char):
     if char in Score.nums:
         return int(char)
-    elif char.upper() == Score.strike:
-        return Score.maxScore
-    elif char == Score.spare:
+    elif char.upper() == Score.strike or char == Score.spare:
         return Score.maxScore
     elif char == Score.miss:
         return Score.missScore
